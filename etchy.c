@@ -30,10 +30,15 @@ int main(void) {
   while(1) {
     ch = getch();
     switch(ch) {
-
-      /*
-       * MOVEMENT KEYS
-       ***************/
+    /*
+	 * CONTROL KEYS
+	 ***************/
+	 case 'q':
+	   endwin();
+	   return 0;
+     /*
+      * MOVEMENT KEYS
+      ***************/
     case KEY_UP:
       if(yc > 0) {
 	draw_square(color);
@@ -63,7 +68,7 @@ int main(void) {
       break;
     default:
       if (47 < ch && ch < 55) {
-	color = ch-48;
+	    color = ch-48;
       }
       addch(ch);
       xc++;
