@@ -28,50 +28,42 @@ int main(void) {
 
   xc = yc = 0;
   while(1) {
-    ch = getch();
-    switch(ch) {
+  	ch = getch();
+  	switch(ch) {
+     
     /*
-	 * CONTROL KEYS
-	 ***************/
-	 case 'q':
-	   endwin();
-	   return 0;
-     /*
-      * MOVEMENT KEYS
-      ***************/
+     * MOVEMENT KEYS
+     ***************/
     case KEY_UP:
       if(yc > 0) {
-	draw_square(color);
-	move(--yc, xc);
+      	draw_square(color);
+				move(--yc, xc);
       }
       break;
     case KEY_LEFT:
       if(xc > 0) {
-	draw_square(color);
-	move(yc, --xc);
+      	draw_square(color);
+				move(yc, --xc);
       }
       break;
     case KEY_DOWN:
       if(yc < max_y - 1) {
-	draw_square(color);
-	move(++yc, xc);
-      }
+      	draw_square(color);
+				move(++yc, xc);
+			}
       break;
     case KEY_RIGHT:
-      if(xc < max_x - 1) { 
-	draw_square(color);
-	move(yc, ++xc);
+			if(xc < max_x - 1) { 
+				draw_square(color);
+				move(yc, ++xc);
       }
-      break;
-    case '2':
-      color = 2;
       break;
     default:
-      if (47 < ch && ch < 55) {
-	    color = ch-48;
-      }
-      addch(ch);
-      xc++;
+    	if (47 < ch && ch < 55) {
+      	color = ch-48;
+      } else {
+      	addch(ch);
+			}
     }
     refresh();
   }
