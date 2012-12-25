@@ -37,34 +37,35 @@ int main(void) {
      ***************/
     case KEY_UP:
       if(yc > 0) {
-      	draw_square(color);
-				move(--yc, xc);
+	move(--yc, xc);
+	addch(inch() | COLOR_PAIR(color));
       }
       break;
     case KEY_LEFT:
       if(xc > 0) {
-      	draw_square(color);
-				move(yc, --xc);
+	move(yc, --xc);
+	addch(inch() | COLOR_PAIR(color));
       }
       break;
     case KEY_DOWN:
       if(yc < max_y - 1) {
-      	draw_square(color);
 				move(++yc, xc);
+				addch(inch() | COLOR_PAIR(color));
 			}
       break;
     case KEY_RIGHT:
-			if(xc < max_x - 1) { 
-				draw_square(color);
+			if(xc < max_x - 1) {
 				move(yc, ++xc);
+				addch(inch() | COLOR_PAIR(color));
       }
       break;
     default:
-    	if (47 < ch && ch < 55) {
-      	color = ch-48;
-      } else {
-      	addch(ch);
-			}
+      if (47 < ch && ch < 57 && color != ch-48)
+	  color = ch-47;
+      else if (ch == 127)
+	addch(' ');
+      else
+	addch(ch | COLOR_PAIR(color));
     }
     refresh();
   }
@@ -73,14 +74,4 @@ int main(void) {
   endwin();
 
   return 0;
-}
-
-void draw_square(int cpair) {
-  if(cpair != 0) {
-    attron(COLOR_PAIR(cpair));
-    addch(' ');
-    attroff(COLOR_PAIR(cpair));
-  } else {
-    addch(' ');
-  }
 }
