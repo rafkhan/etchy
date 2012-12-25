@@ -4,87 +4,90 @@
 void draw_square(int cpair); 
 
 int main(void) {
-	
-	int ch, xc, yc, max_y, max_x, color = 1;
+  
+  int ch, xc, yc, max_y, max_x, color = 1;
 
-	/*
-	 * Init curses
-	 */
-	initscr();
-	keypad(stdscr, TRUE);
-	cbreak();
-	noecho();
+  /*
+   * Init curses
+   */
+  initscr();
+  keypad(stdscr, TRUE);
+  cbreak();
+  noecho();
 
-	start_color();
-	init_pair(1, COLOR_BLACK, COLOR_RED);
-	init_pair(2, COLOR_BLACK, COLOR_BLUE);
+  start_color();
+  init_pair(1, COLOR_BLACK, COLOR_RED);
+  init_pair(2, COLOR_BLACK, COLOR_BLUE);
+  init_pair(3, COLOR_BLACK, COLOR_GREEN);
+  init_pair(4, COLOR_BLACK, COLOR_YELLOW);
+  init_pair(5, COLOR_BLACK, COLOR_MAGENTA);
+  init_pair(6, COLOR_BLACK, COLOR_CYAN);
+  init_pair(7, COLOR_BLACK, COLOR_WHITE);
 
-	getmaxyx(stdscr, max_y, max_x);
+  getmaxyx(stdscr, max_y, max_x);
 
-	xc = yc = 0;
-	while(1) {
-		ch = getch();
-		switch(ch) {
+  xc = yc = 0;
+  while(1) {
+    ch = getch();
+    switch(ch) {
+    /*
+	 * CONTROL KEYS
+	 ***************/
+	 case 'q':
+	   endwin();
+	   return 0;
+     /*
+      * MOVEMENT KEYS
+      ***************/
+    case KEY_UP:
+      if(yc > 0) {
+	draw_square(color);
+	move(--yc, xc);
+      }
+      break;
+    case KEY_LEFT:
+      if(xc > 0) {
+	draw_square(color);
+	move(yc, --xc);
+      }
+      break;
+    case KEY_DOWN:
+      if(yc < max_y - 1) {
+	draw_square(color);
+	move(++yc, xc);
+      }
+      break;
+    case KEY_RIGHT:
+      if(xc < max_x - 1) { 
+	draw_square(color);
+	move(yc, ++xc);
+      }
+      break;
+    case '2':
+      color = 2;
+      break;
+    default:
+      if (47 < ch && ch < 55) {
+	    color = ch-48;
+      }
+      addch(ch);
+      xc++;
+    }
+    refresh();
+  }
 
-			case 'q':
-				endwin();
-				return 0;
-			/*
-			 * MOVEMENT KEYS
-			 ***************/
-			case KEY_UP:
-				if(yc > 0) {
-					draw_square(color);
-					move(--yc, xc);
-				}
-				break;
-			case KEY_LEFT:
-				if(xc > 0) {
-					draw_square(color);
-					move(yc, --xc);
-				}
-				break;
-			case KEY_DOWN:
-				if(yc < max_y - 1) {
-					draw_square(color);
-					move(++yc, xc);
-				}
-				break;
-			case KEY_RIGHT:
-				if(xc < max_x - 1) { 
-					draw_square(color);
-					move(yc, ++xc);
-				}
-				break;
+  getch();
+  endwin();
 
-			case '0':
-				color = 0;
-				break;
-			case '1':
-				color = 1;
-				break;
-			case '2':
-				color = 2;
-				break;
-			default:
-				addch(ch);
-				xc++;
-		}
-		refresh();
-	}
-
-	getch();
-	endwin();
-
-	return 0;
+  return 0;
 }
 
 void draw_square(int cpair) {
-	if(cpair != 0) {
-		attron(COLOR_PAIR(cpair));
-		addch(' ');
-		attroff(COLOR_PAIR(cpair));
-	} else {
-		addch(' ');
-	}
+  if(cpair != 0) {
+    attron(COLOR_PAIR(cpair));
+    addch(' ');
+    attroff(COLOR_PAIR(cpair));
+  } else {
+    addch(' ');
+  }
 }
