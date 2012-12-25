@@ -26,6 +26,9 @@ int main(void) {
 		ch = getch();
 		switch(ch) {
 
+			case 'q':
+				endwin();
+				return 0;
 			/*
 			 * MOVEMENT KEYS
 			 ***************/

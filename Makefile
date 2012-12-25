@@ -5,4 +5,4 @@ main: etchy.c
 	$(CC) $(CFLAGS) etchy.c -o etchy
 
 clean:
-	rm etchy -i
+	rm etchy -I
