@@ -64,7 +64,10 @@ int main(void) {
 	  color = ch-47;
       else if (ch == 127)
 	addch(' ');
-      else
+      else if (ch == 27) {
+	endwin();
+	return 0;
+      } else
 	addch(ch | COLOR_PAIR(color));
     }
     refresh();
