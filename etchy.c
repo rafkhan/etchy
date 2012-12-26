@@ -38,37 +38,56 @@ int main(void) {
     case KEY_UP:
       if(yc > 0) {
 	move(--yc, xc);
-	addch(inch() | COLOR_PAIR(color));
+	ch = inch() & 127;
+	if (ch == 127)
+	  ch = 32;
+	addch(ch | COLOR_PAIR(color));
       }
       break;
     case KEY_LEFT:
       if(xc > 0) {
 	move(yc, --xc);
-	addch(inch() | COLOR_PAIR(color));
+	ch = inch() & 127;
+	if (ch == 127)
+	  ch = 32;
+	addch(ch | COLOR_PAIR(color));
       }
       break;
     case KEY_DOWN:
       if(yc < max_y - 1) {
 				move(++yc, xc);
-				addch(inch() | COLOR_PAIR(color));
+				ch = inch() & 127;
+				if (ch == 127)
+				  ch = 32;
+				addch(ch | COLOR_PAIR(color));
 			}
       break;
     case KEY_RIGHT:
 			if(xc < max_x - 1) {
 				move(yc, ++xc);
-				addch(inch() | COLOR_PAIR(color));
+				ch = inch() & 127;
+				if (ch == 127)
+				  ch = 32;
+				addch(ch | COLOR_PAIR(color));
       }
       break;
     default:
-      if (47 < ch && ch < 57 && color != ch-48)
+      if (47 < ch && ch < 57 && color != ch-47)
 	  color = ch-47;
-      else if (ch == 127)
-	addch(' ');
-      else if (ch == 27) {
-	endwin();
-	return 0;
-      } else
-	addch(ch | COLOR_PAIR(color));
+      else {
+	if (ch == 27) {
+	  endwin();
+	  return 0;
+	} else if (ch == 127)
+	  addch(' ');
+	else
+	  addch(ch | COLOR_PAIR(color));
+	if (ch == 10) {
+	  ++yc;
+	  xc = 0;
+	} else
+	  ++xc;
+      }
     }
     refresh();
   }
