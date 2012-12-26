@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -lncurses
+CFLAGS=-Wall -lncurses -pedantic -ansi -g
 
 main: etchy.c
 	$(CC) $(CFLAGS) etchy.c -o etchy
