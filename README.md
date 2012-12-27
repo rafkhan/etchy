@@ -1,6 +1,6 @@
 Etchy
 ======
-A simply terminal drawing program in C with Ncurses.
+A simple terminal drawing program in C with Ncurses.
 
 All contributions are welcome.
 
