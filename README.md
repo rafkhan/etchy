@@ -1,10 +1,11 @@
 Etchy
 ======
-A simple terminal drawing program
+A simply terminal drawing program in C with Ncurses.
+
+All contributions are welcome.
 
 ### Drawing Key
-* Escape - Quit
-* NumKeys - Select a color
-* NumKey twice, Letters - Print that character
-* Delete - delete character
 * Arrows - Movement
+* F(1 - 8) - Switch Colors
+* Type to print characters
+* CTRL+C - Exit
