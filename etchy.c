@@ -53,23 +53,6 @@ int main(void) {
 					move(yc, ++xc);
 				}
 				break;
-
-			/*
-			 * Color keys
-			 * 
-			 * Macro for f-key case statement below
-			 */
-			#define F_MACRO(i) case KEY_F(i):color = i;break;
-
-			F_MACRO(1);
-			F_MACRO(2);
-			F_MACRO(3);
-			F_MACRO(4);
-			F_MACRO(5);
-			F_MACRO(6);
-			F_MACRO(7);
-			F_MACRO(8);
-
 			default:
 				/* Printable ascii chars */
 				if(ch >= ' ' && ch <= '~') {
