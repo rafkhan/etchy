@@ -6,6 +6,7 @@ All contributions are welcome.
 
 ### Drawing Key
 * Arrows - Movement
-* F(1 - 8) - Switch Colors
+* 0 - 7 - Switch Colors
+* Hit a number a second time to print it; You can hit the previous colour's number and then go over it to fix the colouring issue
 * Type to print characters
-* CTRL+C - Exit
+* CTRL+C/ESC - Exit

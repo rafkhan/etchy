@@ -54,21 +54,18 @@ int main(void) {
 				}
 				break;
 			default:
-				/* Printable ascii chars */
-				if(ch >= ' ' && ch <= '~') {
-					if(xc < max_x - 1) {
-						attron(COLOR_PAIR(color));
-						addch(ch);
-						attroff(COLOR_PAIR(color));
-						move(yc, ++xc);
-					} else if(yc < max_y - 1) {
-						attron(COLOR_PAIR(color));
-						addch(ch);
-						attroff(COLOR_PAIR(color));
-						/* set coords to beginning of next line */
-						xc = 0;
-						move(++yc, xc);
-					}
+				if (47 < ch && ch < 56 && ch != color+47) {
+					color = ch-47;
+				} else if(31 < ch && ch < 127) {
+					addch(ch | COLOR_PAIR(color));
+					move(yc, ++xc);
+				} else if (ch == 127) {
+					addch(' ');
+				} else if (ch == 27) {
+					endwin();
+					return 0;
+				} else if (ch == 10) {
+					move(++yc, (xc=0));
 				}
 		}
 
@@ -82,9 +79,11 @@ int main(void) {
  * as a parameter, which are defined below
  */
 void draw_color(int cpair) {
-	attron(COLOR_PAIR(cpair));
-	addch(' ');
-	attroff(COLOR_PAIR(cpair));
+  int ch;
+  ch = inch() & 127;
+  if (ch == 127)
+    ch = 32;
+  addch(ch | COLOR_PAIR(cpair));
 }
 
 /*
