@@ -9,7 +9,6 @@
 #include <stdlib.h>
 
 void init(void);
-void draw_color(int cpair);
 void draw_color_with_character(int cpair, int ch);
 
 int main(void) {
@@ -32,25 +31,25 @@ int main(void) {
 			 */
 			case KEY_UP:
 				if(yc > 0) {
-					draw_color(color);
+					draw_color_with_character(color, 0);
 					move(--yc, xc);
 				}
 				break;
 			case KEY_DOWN:
 				if(yc < max_y - 1) {
-					draw_color(color);
+					draw_color_with_character(color, 0);
 					move(++yc, xc);
 				}
 				break;
 			case KEY_LEFT:
 				if(xc > 0) {
-					draw_color(color);
+					draw_color_with_character(color, 0);
 					move(yc, --xc);
 				}
 				break;
 			case KEY_RIGHT:
 				if(xc < max_x - 1) {
-					draw_color(color);
+					draw_color_with_character(color, 0);
 					move(yc, ++xc);
 				}
 				break;
@@ -85,7 +84,7 @@ int main(void) {
 					}
 				/* DEL key to delete */
 				} else if (ch == 127) {
-					draw_color(color);
+					draw_color_with_character(color, ' ');
 				/* ESC key to escape */
 				} else if (ch == 27) {
 					endwin();
@@ -101,13 +100,19 @@ int main(void) {
 }
 
 /*
- * Draws a box, takes a colour pair
- * as a parameter, which are defined below
+ * Acts like inch but
+ * returns character
+ * without colour info
  */
-void draw_color(int cpair) {
-	attron(COLOR_PAIR(cpair));
-	addch(' ');
-	attroff(COLOR_PAIR(cpair));
+int inch_without_color(void) {
+	int ch;
+	ch = inch() & 127; /* Clear colour info */
+	/* If the character was empty to begin with,
+	 * Make it a space
+	 */
+	if (ch == 127)
+		ch = 32;
+	return ch;
 }
 
 /*
@@ -116,6 +121,8 @@ void draw_color(int cpair) {
  * parameters, as defined below
  */
 void draw_color_with_character(int cpair, int ch) {
+	if (ch == 0)
+		ch = inch_without_color();
 	addch(ch | COLOR_PAIR(cpair));
 }
 
