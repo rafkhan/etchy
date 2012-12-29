@@ -78,7 +78,7 @@ int main(void) {
 						addch(ch);
 						attroff(COLOR_PAIR(color));
 						move(yc, ++xc);
-					} else {
+					} else if(yc < max_y - 1) {
 						attron(COLOR_PAIR(color));
 						addch(ch);
 						attroff(COLOR_PAIR(color));
