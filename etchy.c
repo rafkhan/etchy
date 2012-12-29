@@ -90,6 +90,9 @@ int main(void) {
 				} else if (ch == 27) {
 					endwin();
 					return 0;
+				} else if (ch == 10) {
+					xc = 0;
+					move(++yc, xc);
 				}
 		}
 		/* redraw ncurses screen */
