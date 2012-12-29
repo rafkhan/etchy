@@ -10,6 +10,7 @@
 
 void init(void);
 void draw_color(int cpair);
+void draw_color_with_character(int cpair, int ch);
 
 int main(void) {
 	int ch, xc, yc, max_y, max_x, color;
@@ -82,6 +83,13 @@ int main(void) {
 						xc = 0;
 						move(++yc, xc);
 					}
+				/* DEL key to delete */
+				} else if (ch == 127) {
+					draw_color(color);
+				/* ESC key to escape */
+				} else if (ch == 27) {
+					endwin();
+					return 0;
 				}
 		}
 		/* redraw ncurses screen */
