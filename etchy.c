@@ -74,21 +74,16 @@ int main(void) {
 				/* Printable ascii chars */
 				if(ch >= ' ' && ch <= '~') {
 					if(xc < max_x - 1) {
-						attron(COLOR_PAIR(color));
-						addch(ch);
-						attroff(COLOR_PAIR(color));
+						draw_color_with_character(color, ch);
 						move(yc, ++xc);
 					} else if(yc < max_y - 1) {
-						attron(COLOR_PAIR(color));
-						addch(ch);
-						attroff(COLOR_PAIR(color));
+						draw_color_with_character(color, ch);
 						/* set coords to beginning of next line */
 						xc = 0;
 						move(++yc, xc);
 					}
 				}
 		}
-
 		/* redraw ncurses screen */
 		refresh();
 	}
@@ -102,6 +97,15 @@ void draw_color(int cpair) {
 	attron(COLOR_PAIR(cpair));
 	addch(' ');
 	attroff(COLOR_PAIR(cpair));
+}
+
+/*
+ * Draws a character with colour,
+ * takes a colour pair and a character as
+ * parameters, as defined below
+ */
+void draw_color_with_character(int cpair, int ch) {
+	addch(ch | COLOR_PAIR(cpair));
 }
 
 /*
