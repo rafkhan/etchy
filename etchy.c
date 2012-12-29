@@ -1,3 +1,10 @@
+/**********************
+ * Contributors:      *
+ * 	- rafkhan         *
+ * 	- uiri            *
+ * 	- tacticalgenius  *
+ **********************/
+
 #include <ncurses.h>
 #include <stdlib.h>
 
@@ -8,16 +15,19 @@ int main(void) {
 	int ch, xc, yc, max_y, max_x, color;
 	color = 1;
 
-	init();
+	init(); /* initialize curses */
 	getmaxyx(stdscr, max_y, max_x);
 
-	/* Set initial position */
-	xc = yc = 0; 
+	xc = yc = 0; /* Set initial position */
 	while(1) {
-		ch = getch();
+		
+		/* ch = key pressed */
+		ch = getch(); 
+
 		switch(ch) {
 			/*
 			 * Movement keys
+			 * Draws a coloured box
 			 */
 			case KEY_UP:
 				if(yc > 0) {
@@ -63,17 +73,31 @@ int main(void) {
 			default:
 				/* Printable ascii chars */
 				if(ch >= ' ' && ch <= '~') {
-					attron(COLOR_PAIR(color));
-					addch(ch);
-					attroff(COLOR_PAIR(color));
-					move(yc, ++xc);
+					if(xc < max_x - 1) {
+						attron(COLOR_PAIR(color));
+						addch(ch);
+						attroff(COLOR_PAIR(color));
+						move(yc, ++xc);
+					} else {
+						attron(COLOR_PAIR(color));
+						addch(ch);
+						attroff(COLOR_PAIR(color));
+						/* set coords to beginning of next line */
+						xc = 0;
+						move(++yc, xc);
+					}
 				}
 		}
 
+		/* redraw ncurses screen */
 		refresh();
 	}
 }
 
+/*
+ * Draws a box, takes a colour pair
+ * as a parameter, which are defined below
+ */
 void draw_color(int cpair) {
 	attron(COLOR_PAIR(cpair));
 	addch(' ');
@@ -84,11 +108,12 @@ void draw_color(int cpair) {
  * Initialize curses and color pairs
  */
 void init(void) {
-	initscr();
-	keypad(stdscr, TRUE);
+	initscr(); /* get screen */
+	keypad(stdscr, TRUE); /* enable keypad */
 	cbreak();
-	noecho();
+	noecho(); /* Do not just display keystrokes */
 
+	/* Color config */
 	start_color();
 	init_pair(1, COLOR_WHITE, COLOR_BLACK);
 	init_pair(2, COLOR_WHITE, COLOR_RED);
